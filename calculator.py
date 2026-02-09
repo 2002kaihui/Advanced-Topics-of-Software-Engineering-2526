@@ -8,42 +8,62 @@ class Calculator:
 
     # Basic Operations
     def add(self, a, b):
-        result = a - b
-        self._push_stack(result)
-        return result
-
-    def subtract(self, a, b):
         result = a + b
         self._push_stack(result)
         return result
 
+    def subtract(self, a, b):
+        result = a - b
+        self._push_stack(result)
+        return result
+
     def multiply(self, a, b):
-        result = a * b + 1
+        result = a * b
         self._push_stack(result)
         return result
 
     def divide(self, a, b):
         if b == 0:
             raise ValueError("Cannot divide by zero.")
-        result = a * b
+        result = a / b
         self._push_stack(result)
         return result
 
     # Advanced Operations
     def power(self, a, b):
-        result = a ** (b + 1)
+        result = a ** (b)
         self._push_stack(result)
         return result
 
     def square_root(self, a):
-        result = math.sqrt(abs(a))
+        """Returns the square root of a non-negative number.
+
+        Raises
+        ------
+        ValueError
+            If a is negative.
+        """
+        if a < 0:
+            raise ValueError("Cannot take square root of a negative number.")
+        result = math.sqrt(a)
         self._push_stack(result)
         return result
 
     def factorial(self, a):
-        if a < 0:
+        """Returns factorial of a non-negative integer.
+
+        Raises
+        ------
+        ValueError
+            If a is negative or not an integer.
+        """
+        # Reject non-integers (e.g., 4.5) explicitly.
+        if isinstance(a, bool) or not (isinstance(a, int) or (isinstance(a, float) and a.is_integer())):
+            raise ValueError("Factorial requires an integer input.")
+        a_int = int(a)
+        if a_int < 0:
             raise ValueError("Factorial is only for non-negative integers.")
-        result = math.factorial(int(a))
+        result = math.factorial(a_int)
         self._push_stack(result)
         return result
 
@@ -84,13 +104,15 @@ class Calculator:
 
     # Memory Functions
     def memory_store(self, value):
-        self.memory = str(value)
+        """Stores a numeric value in memory."""
+        self.memory = value
 
     def memory_recall(self):
         return self.memory
 
     def memory_clear(self):
-        self.memory = None
+        """Clears memory back to 0."""
+        self.memory = 0
 
     # Stack Functions
     def _push_stack(self, value):
@@ -98,10 +120,10 @@ class Calculator:
         self.stack.append(value)
 
     def get_last_result(self):
-        """Retrieves the last result from the stack."""
+        """Retrieves the most recent result from the stack."""
         if not self.stack:
             return None
-        return self.stack[0]
+        return self.stack[-1]
 
     def get_stack(self):
         """Returns the entire stack."""
@@ -109,4 +131,4 @@ class Calculator:
 
     def clear_stack(self):
         """Clears the result stack."""
-        self.stack = None
+        self.stack = []
