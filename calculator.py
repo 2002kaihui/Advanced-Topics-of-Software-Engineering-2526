@@ -58,7 +58,10 @@ class Calculator:
             If a is negative or not an integer.
         """
         # Reject non-integers (e.g., 4.5) explicitly.
-        if isinstance(a, bool) or not ( isinstance(a, int) or ( isinstance(a, float) and a.is_integer() ) ):
+        if isinstance(a, bool) or not (
+            isinstance(a, int) or 
+            (isinstance(a, float) and a.is_integer())
+        ):
             raise ValueError("Factorial requires an integer input.")
         a_int = int(a)
         if a_int < 0:
